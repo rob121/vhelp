@@ -12,11 +12,18 @@ import (
 var cb func(e fsnotify.Event)
 var watch bool
 var configs map[string]*viper.Viper
+var paths []string
 
 func init (){
 
 	watch = false
 	configs  = make(map[string]*viper.Viper)
+	
+}
+
+func AddPath(pth string){
+
+	paths = append(paths,pth)
 }
 
 func OnChange(fn func(e fsnotify.Event)){
@@ -41,6 +48,15 @@ func Load(file string){
 	runtime_viper.AddConfigPath("/etc/" + exe)   // path to look for the config file in
 	runtime_viper.AddConfigPath("$HOME/." + exe) // call multiple times to add many search paths
 	runtime_viper.AddConfigPath(".")             // optionally look for config in the working directory
+	
+	
+	for ,p := range paths{
+	
+		runtime_viper.AddConfigPath(p)
+		
+	}
+	
+	
 	err := runtime_viper.ReadInConfig()          // Find and read the config file
 
 	if err != nil { // Handle errors reading the config file
