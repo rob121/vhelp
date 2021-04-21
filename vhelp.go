@@ -50,7 +50,7 @@ func Load(file string){
 	runtime_viper.AddConfigPath(".")             // optionally look for config in the working directory
 	
 	
-	for ,p := range paths{
+	for _,p := range paths{
 	
 		runtime_viper.AddConfigPath(p)
 		
