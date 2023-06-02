@@ -26,6 +26,10 @@ func AddPath(pth string){
 	paths = append(paths,pth)
 }
 
+func ResetPath() {
+	paths = []string{}
+}
+
 func OnChange(fn func(e fsnotify.Event)){
     watch = true
 	cb = fn
