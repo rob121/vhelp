@@ -18,7 +18,13 @@ func init (){
 
 	watch = false
 	configs  = make(map[string]*viper.Viper)
-	
+
+	exefull, _ := os.Executable()
+	exe := filepath.Base(exefull)
+	AddPath("/etc/" + exe)   // path to look for the config file in
+	AddPath("$HOME/." + exe) // call multiple times to add many search paths
+	AddPath(".")             // optionally look for config in the working directory
+
 }
 
 func AddPath(pth string){
@@ -44,14 +50,10 @@ func Load(file string){
 
 	runtime_viper := viper.New()
 
-	exefull, _ := os.Executable()
-	exe := filepath.Base(exefull)
 
 	runtime_viper.SetConfigName(file)        // name of config file (without extension)
 	runtime_viper.SetConfigType("json")          // REQUIRED if the config file does not have the extension in the name
-	runtime_viper.AddConfigPath("/etc/" + exe)   // path to look for the config file in
-	runtime_viper.AddConfigPath("$HOME/." + exe) // call multiple times to add many search paths
-	runtime_viper.AddConfigPath(".")             // optionally look for config in the working directory
+
 	
 	
 	for _,p := range paths{
