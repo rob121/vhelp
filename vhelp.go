@@ -66,7 +66,7 @@ func Load(file string){
 	err := runtime_viper.ReadInConfig()          // Find and read the config file
 
 	if err != nil { // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		return 
 	}
 
 	if(watch==true) {
